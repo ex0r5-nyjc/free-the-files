@@ -70,7 +70,7 @@ def search_contacts_by_name(contacts: List[Dict], name: str) -> List[Dict]:
     # Write your code here
     output = []
     for contact in contacts:
-        if name in contact["Name"]:
+        if name.upper() in contact["Name"].upper():
             output.append(contact)
     return output
 
