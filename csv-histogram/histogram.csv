@@ -1,0 +1,60 @@
+FUNCTIONS:
+enumerate(iterable, start=0): 12
+divmod(value, divisor): 10
+help(): 7
+dir(): 7
+abs(): 7
+type(): 6
+print(): 2
+
+STRINGS:
+.isdigit(): 12
+.isalpha(): 11
+.split(): 11
+.strip(): 11
+.startswith(): 10
+.index(): 10
+.count(): 9
+.find(): 9
+.islower(): 9
+.isdecimal(): 9
+.isalnum(): 8
+.isnumeric(): 8
+S.join(iterable): 8
+.replace(old, new, count): 8
+.endswith(): 8
+.lstrip(): 8
+.isupper(): 7
+.lower(): 7
+.rstrip(): 6
+.upper(): 6
+.rsplit(): 5
+.zfill(): 5
+.isspace(): 4
+.istitle(): 4
+.center(): 4
+.splitlines(): 4
+.capitalize(): 3
+.swapcase(): 3
+.title(): 3
+.translate(): 3
+.isidentifier(): 2
+.ljust(): 2
+.maketrans(): 2
+.rfind(): 2
+.rindex(): 2
+.rjust(): 2
+.rpartition(): 2
+
+LISTS:
+L.insert(n, item): 13
+L.pop(index): 12
+L.reverse(): 12
+L.sort(): 12
+L.extend(iterable): 11
+L.append(object): 10
+L.index(element): 10
+L.remove(element): 10
+L.count(element): 9
+L.clear(): 7
+
