@@ -6,7 +6,6 @@ class InvalidKeyException(Exception):
     """Exception raised when an invalid key combination is provided"""
     pass
 
-
 def parse_config_file(file_path: str) -> Dict[str, Dict[str, str]]:
     """
     Parse a configuration file into a nested dictionary structure.
@@ -64,27 +63,17 @@ def set_hotkey(config: Dict[str, Dict[str, str]], category: str, action: str, ke
         The modified configuration dictionary
 
     Raises:
-        InvalidKeyException: If the key combination is invalid (not implemented yet)
+        InvalidKeyException: If the key combination is invalid
     """
     # Write your code here
     # TODO: verify that keys within are not invalid
+    if not validate_key_combination(key):
+        raise InvalidKeyException("invalid hotkey combination")
 
     # verified -> put it in
-    if category in config:
-        if action in config[category]:
-            if key not in config[category][action]:
-                if type(config[category][action]) == list:
-                    config[category][action].append(key)
-                elif config[category][action] == "":
-                    config[category][action] = key
-                else:
-                    temp = [config[category][action]]
-                    temp.append(key)
-                    config[category][action] = temp
-            return config
-        config[category][action] = key
-        return config
-    config[category] = {action: key}
+    if category not in config:
+        config[category] = {action:""}
+    config[category][action] = key
     return config
 
 
@@ -122,7 +111,10 @@ def get_hotkey(config: Dict[str, Dict[str, str]], category: str, action: str) ->
         The key binding, or None if not found
     """
     # Write your code here
-    pass
+    try:
+        return config[category][action]
+    except KeyError:
+        return None
 
 
 def validate_key_combination(key: str) -> bool:
@@ -136,7 +128,27 @@ def validate_key_combination(key: str) -> bool:
         True if valid, False otherwise
     """
     # Write your code here
-    pass
+    SPECIAL_KEYS = [
+        "CAPSLOCK", "ENTER", "SPACE", "TAB", "RETURN", "ESC", "BS", "SHIFT",
+        "SCROLLLOCK", "DEL", "INS", "HOME", "END", "PGUP", "PGDN", "UP", "DOWN", "LEFT", "RIGHT",
+        "NUM_0", "NUM_1", "NUM_2", "NUM_3", "NUM_4", "NUM_5", "NUM_6", "NUM_7", "NUM_8", "NUM_9", "NUM_DOT",
+        "NUM_INS", "NUM_END", "NUM_DOWN", "NUM_PGDN", "NUM_LEFT", "NUM_CLEAR", "NUM_RIGHT", "NUM_HOME", "NUM_UP", "NUM_PGUP", "NUM_DEL",
+        "NUM_LOCK", "NUM_DIV", "NUM_MULT", "NUM_ADD", "NUM_SUB", "NUM_ENTER",
+        "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12",
+        "F13", "F14", "F15", "F16", "F17", "F18", "F19", "F20", "F21", "F22", "F23", "F24",
+        "WIN", "CTRL", "COMMAND", "ALT", "OPTION", "SHIFT",
+        "BROWSER_BACK", "BROWSER_FORWARD", "BROWSER_REFRESH", "BROWSER_STOP", "BROWSER_SEARCH", "BROWSER_FAVOURITES", "BROWSER_HOME",
+        "VOLUME_MUTE", "VOLUME_DOWN", "VOLUME_UP", "MEDIA_NEXT", "MEDIA_PREV", "MEDIA_STOP", "MEDIA_PLAY_PAUSE",
+        "LAUNCH_MAIL", "LAUNCH_MEDIA", "LAUNCh_APP1", "LAUNCH_APP2"
+        "MENU", "PRT_SC", "CTRL_BREAK", "PAUSE", "BREAK", "HELP", "SLEEP"
+    ]
+    checklist = key.upper().split("+")
+    checked = []
+    for item in checklist:
+        if not (item.isalnum() or item in SPECIAL_KEYS) or item in checked:
+            return False
+        checked.append(item)
+    return True
 
 
 def list_categories(config: Dict[str, Dict[str, str]]) -> list:
@@ -150,7 +162,7 @@ def list_categories(config: Dict[str, Dict[str, str]]) -> list:
         A list of category names
     """
     # Write your code here
-    pass
+    return list(config.keys())
 
 
 def list_actions_in_category(config: Dict[str, Dict[str, str]], category: str) -> list:
@@ -165,7 +177,7 @@ def list_actions_in_category(config: Dict[str, Dict[str, str]], category: str) -
         A list of action names in the category
     """
     # Write your code here
-    pass
+    return list(config[category].keys())
 
 if __name__ == "__main__":
     data = parse_config_file("hotkeys.cfg")
